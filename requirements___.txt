@@ -1,0 +1,6 @@
+python-telegram-bot
+django
+uvicorn
+python-dotenv
+fastapi
+pydantic
