@@ -1,99 +1,127 @@
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler
-from telegram import InlineKeyboardMarkup, Update, InlineKeyboardButton, ReplyKeyboardMarkup
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
+from warnings import filterwarnings
+from telegram import Update
+from telegram.ext import Application, CommandHandler, ContextTypes, ConversationHandler, MessageHandler, filters
+from telegram.warnings import PTBUserWarning
+from _main import *
+from _questionnaire import *
+from _processing import *
+from _contacts import *
 
-# подгружаем переменные окружения
+filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBUserWarning)
 load_dotenv()
-
-# токен бота
 TOKEN = os.getenv('TG_TOKEN')
 
-# форма inline клавиатуры
-inline_frame = [[InlineKeyboardButton("English", callback_data="english")],
-                [InlineKeyboardButton("Русский", callback_data="russia")]]
-# создаем inline клавиатуру
-inline_keyboard = InlineKeyboardMarkup(inline_frame)
+#get ready directory for images
+os.makedirs('images', exist_ok=True)
 
 # функция-обработчик команды /start
-async def start(update, context):
-    await update.message.reply_text('Выбери язык интерфейса', reply_markup=inline_keyboard)
-
-# функция-обработчик текстовых сообщений
-async def text(update: Update, context):
-    if context.user_data['lang'] == 'english':
-        text = 'We’ve received a message from you!'
-    else:
-        text = 'Текстовое сообщение получено!'
-
-    await update.message.reply_text(text)
-
-# функция-обработчик текстовых сообщений
-async def voice(update: Update, context):
-    if context.user_data['lang'] == 'english':
-        text = 'We’ve received a voice message from you!'
-    else:
-        text = 'Голосовое сообщение получено'
-
-    await update.message.reply_photo('images/bot_image.jpg', caption=text)
-
-# функция-обработчик текстовых сообщений
-async def image(update: Update, context):
-    if context.user_data['lang'] == 'english':
-        text = 'Photo saved!'
-    else:
-        text = 'Фотография сохранена'
-
-    photo = await update.message.photo[-1].get_file()
-    os.makedirs('photos', exist_ok=True)
-
-    photo_path = f'photos/{photo.file_path.split("/")[-1]}'
-
-    if not os.path.exists(photo_path):
-        await photo.download_to_drive(photo_path)
-
-    await update.message.reply_text(text)
-
-# функция-обработчик нажатий на кнопки
-async def button(update: Update, context):
-    # получаем callback query из update
-    query = update.callback_query
-    context.user_data['lang'] = query.data
+async def start(update: Update, context:ContextTypes) -> int:
+    #start messages output, except of the last one
+    for i in range(len(MESSAGES['start_step']) - 1):
+        await update.message.reply_text(MESSAGES['start_step'][i], 
+                                        parse_mode=constants.ParseMode.HTML)
+        time.sleep(0.15)
     
-    # редактируем сообщение после нажатия
-    if context.user_data['lang'] == 'english':
-        text = 'You\'ve chosen English!'
-    else:
-        text = 'Ваш язык - русский'
+    #last of start messages output
+    await update.message.reply_text(MESSAGES['start_step'][-1], 
+                                    parse_mode=constants.ParseMode.HTML, 
+                                    reply_markup=ReplyKeyboardMarkup(BUTTONS['start'], 
+                                                                     one_time_keyboard=True))
+    return LAUNCH
 
-    await query.edit_message_text(text=text)
+# функция-обработчик команды /cancel
+async def cancel(update: Update, context:ContextTypes) -> int:
+    await update.message.reply_text(MESSAGES['cancel'])
+    context.user_data.clear()
+    return ConversationHandler.END
 
-def main():
-
-    # создаем приложение и передаем в него токен
+def main() -> None:
+    # Create the Application and pass it your bot's token.
     application = Application.builder().token(TOKEN).build()
     print('Бот запущен...')
 
-    # добавляем обработчик команды /start
-    application.add_handler(CommandHandler("start", start))
-    # application.add_handler(CommandHandler("help", help))
+    # Set up conversation handlers
+    conv_handler = ConversationHandler(
+        entry_points=[CommandHandler("start", start)],
+        states={
+            LAUNCH: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(СТАРТ)$'), launch), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel)],
+            ORDER_TYPE: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, order_type)],
+            SEARCH_TYPE: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, search_type)],
+            CUSTOM_SEARCH: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, custom_search)],
+            FILTERS_SEARCH: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, filters_search)],
+            QUESTIONS_INTRO: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, questions_intro)],
+            QUESTIONS_PHOTO: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.PHOTO, questions_photo), MessageHandler(filters.Document.IMAGE, questions_photo), MessageHandler(filters.ALL, photo_error)],
+            QUESTIONNAIRE: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, questionnaire)],
+            CONTACTS_INTRO: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, contacts_intro)],
+            PROCESSING: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.Regex(r"(ПЕРЕЙТИ К ОБРАБОТКЕ)"), processing), MessageHandler(filters.TEXT, processing)],
+            SEARCH_INIT: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.Regex(r"(^#\d{3,}$)"), search_init), MessageHandler(filters.TEXT, search_init)],
+            SEARCH: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.Regex(r"(^#\d{3,}$)"), search), MessageHandler(filters.TEXT, search)],
+            CONTACTS_COMPANY: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, contacts_company)],
+            CONTACTS_EMAIL: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, contacts_email)],
+            CONTACTS_PHONE: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, contacts_phone)],
+            CONTACTS_FINISH: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, contacts_finish)],
+            QUESTION_1: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_1)], 
+            QUESTION_2: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_2)], 
+            QUESTION_3: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_3)], 
+            QUESTION_4: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_4)], 
+            QUESTION_5: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_5)], 
+            QUESTION_6: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_6)], 
+            QUESTION_7: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_7)], 
+            QUESTION_8: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_8)], 
+            QUESTION_9: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_9)], 
+            QUESTION_10: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_10)], 
+            QUESTION_11: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_11)], 
+            QUESTION_12: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_12)], 
+            QUESTION_13: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_13)], 
+            QUESTION_14: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_14)], 
+            QUESTION_15: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_15)], 
+            QUESTION_16: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_16)], 
+            QUESTION_17: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_17)], 
+            QUESTION_18: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_18)], 
+            QUESTION_19: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_19)], 
+            QUESTION_20: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_20)], 
+            QUESTION_21: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_21)], 
+            QUESTION_22: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_22)], 
+            QUESTION_23: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_23)], 
+            QUESTION_24: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_24)], 
+            QUESTION_25: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_25)],
+            QUESTION_26: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_26)],
+            QUESTION_1_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_1_check)],  
+            QUESTION_2_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_2_check)], 
+            QUESTION_3_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_3_check)], 
+            QUESTION_4_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_4_check)], 
+            QUESTION_5_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_5_check)], 
+            QUESTION_6_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_6_check)], 
+            QUESTION_7_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_7_check)], 
+            QUESTION_8_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_8_check)], 
+            QUESTION_9_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_9_check)], 
+            QUESTION_10_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_10_check)], 
+            QUESTION_11_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_11_check)], 
+            QUESTION_12_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_12_check)], 
+            QUESTION_13_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_13_check)], 
+            QUESTION_14_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_14_check)], 
+            QUESTION_15_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_15_check)], 
+            QUESTION_16_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_16_check)], 
+            QUESTION_17_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_17_check)], 
+            QUESTION_18_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_18_check)], 
+            QUESTION_19_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_19_check)], 
+            QUESTION_20_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_20_check)], 
+            QUESTION_21_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_21_check)], 
+            QUESTION_22_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_22_check)], 
+            QUESTION_23_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_23_check)], 
+            QUESTION_24_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_24_check)], 
+            QUESTION_25_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_25_check)], 
+            QUESTION_26_CHECK: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_26_check)], 
+        },
+        fallbacks=[CommandHandler("cancel", cancel)],
+    )
 
-    # добавляем обработчик текстовых сообщений
-    application.add_handler(MessageHandler(filters.TEXT, text))
+    application.add_handler(conv_handler)
 
-    # добавляем обработчик голосовых сообщений
-    application.add_handler(MessageHandler(filters.VOICE, voice))
-
-    # добавляем обработчик изображений
-    application.add_handler(MessageHandler(filters.PHOTO, image))
-
-    # добавляем CallbackQueryHandler (только для inline кнопок)
-    application.add_handler(CallbackQueryHandler(button))
-
-    # запускаем бота (нажать Ctrl-C для остановки бота)
-    application.run_polling()
-    print('Бот остановлен')
-
+    # Run the bot until the user presses Ctrl-C
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
     main()
