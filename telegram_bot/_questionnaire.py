@@ -298,9 +298,9 @@ async def question_3_check(update: Update, context: ContextTypes.DEFAULT_TYPE) -
                                                                             one_time_keyboard=True))
         return QUESTION_3
     elif 'да, пропустить вс' in update.message.text.lower():
-        await update.message.reply_text(MESSAGES['new_order']['processing']['intro'], 
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
                                                 parse_mode=constants.ParseMode.HTML)
-        await update.message.reply_text(MESSAGES['new_order']['processing']['contacts']['intro'], 
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
                                                 parse_mode=constants.ParseMode.HTML, 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
                                                                             one_time_keyboard=True))
@@ -342,7 +342,7 @@ async def question_4(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                                                                          one_time_keyboard=True))
         
         return QUESTION_4
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -406,6 +406,14 @@ async def question_4_check(update: Update, context: ContextTypes.DEFAULT_TYPE) -
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_4
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING   
     else:
         if 'search_data' in context.user_data.keys() and '3' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][3] = context.user_data['entry']
@@ -443,7 +451,7 @@ async def question_5(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                                                                          one_time_keyboard=True))
         
         return QUESTION_5
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -507,6 +515,14 @@ async def question_5_check(update: Update, context: ContextTypes.DEFAULT_TYPE) -
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_5
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '4' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][4] = context.user_data['entry']
@@ -560,7 +576,7 @@ async def question_6(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                                                                         one_time_keyboard=True))
         
         return QUESTION_6_CHECK
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -627,6 +643,14 @@ async def question_6_check(update: Update, context: ContextTypes.DEFAULT_TYPE) -
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_6
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '5' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][5] = [x for x,y in context.user_data['question'].items() if y]
@@ -664,7 +688,7 @@ async def question_7(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                                                                          one_time_keyboard=True))
         
         return QUESTION_7
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -728,6 +752,14 @@ async def question_7_check(update: Update, context: ContextTypes.DEFAULT_TYPE) -
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_5
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '6' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][6] = context.user_data['entry']
@@ -765,7 +797,7 @@ async def question_8(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                                                                          one_time_keyboard=True))
         
         return QUESTION_8
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -829,6 +861,14 @@ async def question_8_check(update: Update, context: ContextTypes.DEFAULT_TYPE) -
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_8
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '7' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][7] = context.user_data['entry']
@@ -867,7 +907,7 @@ async def question_9(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                                                                          one_time_keyboard=True))
         
         return QUESTION_9
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -931,6 +971,14 @@ async def question_9_check(update: Update, context: ContextTypes.DEFAULT_TYPE) -
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_9
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '8' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][8] = context.user_data['entry']
@@ -984,7 +1032,7 @@ async def question_10(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                         one_time_keyboard=True))
         
         return QUESTION_10_CHECK
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -1051,6 +1099,14 @@ async def question_10_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_10
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '9' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][9] = [x for x,y in context.user_data['question'].items() if y]
@@ -1088,7 +1144,7 @@ async def question_11(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_11
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -1152,6 +1208,14 @@ async def question_11_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_11
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '10' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][10] = context.user_data['entry']
@@ -1205,7 +1269,7 @@ async def question_12(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                         one_time_keyboard=True))
         
         return QUESTION_12_CHECK
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -1272,6 +1336,14 @@ async def question_12_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_12
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '11' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][11] = [x for x,y in context.user_data['question'].items() if y]
@@ -1325,7 +1397,7 @@ async def question_13(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                         one_time_keyboard=True))
         
         return QUESTION_13_CHECK
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -1392,6 +1464,14 @@ async def question_13_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_13
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '12' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][12] = [x for x,y in context.user_data['question'].items() if y]
@@ -1429,7 +1509,7 @@ async def question_14(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_14
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -1493,6 +1573,14 @@ async def question_14_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_14
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '13' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][13] = context.user_data['entry']
@@ -1546,7 +1634,7 @@ async def question_15(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                         one_time_keyboard=True))
         
         return QUESTION_15_CHECK
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -1613,6 +1701,14 @@ async def question_15_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_15
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '14' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][14] = [x for x,y in context.user_data['question'].items() if y]
@@ -1650,7 +1746,7 @@ async def question_16(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_16
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -1714,6 +1810,14 @@ async def question_16_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_16
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '15' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][15] = context.user_data['entry']
@@ -1751,7 +1855,7 @@ async def question_17(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_17
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -1815,6 +1919,14 @@ async def question_17_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_17
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '16' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][16] = context.user_data['entry']
@@ -1852,7 +1964,7 @@ async def question_18(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_18
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -1916,6 +2028,14 @@ async def question_18_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_18
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '17' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][17] = context.user_data['entry']
@@ -1953,7 +2073,7 @@ async def question_19(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_19
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -2017,6 +2137,14 @@ async def question_19_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_19
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '18' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][18] = context.user_data['entry']
@@ -2054,7 +2182,7 @@ async def question_20(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_20
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -2118,6 +2246,14 @@ async def question_20_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_20
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '19' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][19] = context.user_data['entry']
@@ -2155,7 +2291,7 @@ async def question_21(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_21
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -2219,6 +2355,14 @@ async def question_21_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_21
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '20' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][20] = context.user_data['entry']
@@ -2256,7 +2400,7 @@ async def question_22(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_22
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -2320,6 +2464,14 @@ async def question_22_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_22
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '21' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][21] = context.user_data['entry']
@@ -2357,7 +2509,7 @@ async def question_23(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_23
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -2421,6 +2573,14 @@ async def question_23_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_23
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '22' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][22] = context.user_data['entry']
@@ -2458,7 +2618,7 @@ async def question_24(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_24
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -2522,6 +2682,14 @@ async def question_24_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_24
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '23' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][23] = context.user_data['entry']
@@ -2559,7 +2727,7 @@ async def question_25(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_25
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -2623,6 +2791,14 @@ async def question_25_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_25
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '24' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][24] = context.user_data['entry']
@@ -2660,7 +2836,7 @@ async def question_26(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                                                                          one_time_keyboard=True))
         
         return QUESTION_26
-    elif 'пропустить всё' in update.message.text.lower():
+    elif 'пропустить вс' in update.message.text.lower():
         await update.message.reply_text(MESSAGES['new_order']['questionnaire']['questions']['skip_confirm'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['skip_all_yes'], 
@@ -2724,6 +2900,14 @@ async def question_26_check(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                                             reply_markup=ReplyKeyboardMarkup(BUTTONS['question_buttons'], 
                                                                             one_time_keyboard=True))
         return QUESTION_26
+    elif 'да, пропустить вс' in update.message.text.lower():
+        await update.message.reply_text(MESSAGES['processing']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML)
+        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'], 
+                                                parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
+                                                                            one_time_keyboard=True))
+        return PROCESSING 
     else:
         if 'search_data' in context.user_data.keys() and '25' not in str(context.user_data['search_data'].keys()):
             context.user_data['search_data'][25] = context.user_data['entry']
