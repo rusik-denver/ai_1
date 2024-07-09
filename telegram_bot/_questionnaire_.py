@@ -70,8 +70,8 @@ async def question_1(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def question_1_check(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     global MESSAGES
 
-    # if 'search_data' not in context.user_data.keys():
-    #     context.user_data['search_data'] = {}
+    if 'search_data' not in context.user_data.keys():
+        context.user_data['search_data'] = {}
 
     if 'entry' in context.user_data.keys() and context.user_data['entry']:
         context.user_data['search_data'][0] = context.user_data['entry']

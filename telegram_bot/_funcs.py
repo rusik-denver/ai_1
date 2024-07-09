@@ -187,15 +187,10 @@ BUTTONS = {
     ],
     'search_type': [
         [emoji.emojize(':spiral_notepad: АНКЕТИРОВАНИЕ')],
-        [emoji.emojize(':magnifying_glass_tilted_right: ПОИСК ПО ФИЛЬТРАМ')],
+        [emoji.emojize(':magnifying_glass_tilted_right: ПОИСК ПО ШАБЛОНУ')],
         [emoji.emojize(':gear: ПРОИЗВОЛЬНЫЙ ПОИСК')],
         [emoji.emojize(':cross_mark: ОТМЕНА')],
     ],
-    # 'questions_button': [
-    #     [emoji.emojize(':rocket: НАЧАТЬ ПОИСК')],
-    #     [emoji.emojize(':backhand_index_pointing_left: НАЗАД')],
-    # ],
-    # 'back': [[emoji.emojize(':backhand_index_pointing_left: НАЗАД')]],
     'back_cancel': [[
         emoji.emojize(':backhand_index_pointing_left: НАЗАД'),
         emoji.emojize(':cross_mark: ОТМЕНА'),
@@ -209,10 +204,6 @@ BUTTONS = {
         [emoji.emojize(':backhand_index_pointing_left: НАЗАД'),
             emoji.emojize(':cross_mark: ОТМЕНА')],
     ],
-    # 'back_skip': [
-    #     [emoji.emojize(':backhand_index_pointing_left: НАЗАД')],
-    #     [emoji.emojize('ПРОПУСТИТЬ :man_running:')],
-    # ],
     'next_cancel': [[
         emoji.emojize('ПРОДОЛЖИТЬ :backhand_index_pointing_right:'),
         emoji.emojize(':cross_mark: ОТМЕНА'),
@@ -232,7 +223,6 @@ BUTTONS = {
             emoji.emojize('ПРОПУСТИТЬ :man_running:')],
         [emoji.emojize('ПРОПУСТИТЬ ВСË :man_surfing:')],
     ],
-    # 'next': [[emoji.emojize(':backhand_index_pointing_right: ПРОДОЛЖИТЬ')]],
     'skip': [[
         emoji.emojize(':man_running: ПРОПУСТИТЬ'),
         emoji.emojize(':backhand_index_pointing_left: НАЗАД'),
@@ -241,10 +231,6 @@ BUTTONS = {
         emoji.emojize(':man_running: ДА, ПРОПУСТИТЬ'),
         emoji.emojize(':backhand_index_pointing_left: ПЕРЕДУМАЛ'),
     ]],
-    # 'skip_to_processing': [
-    #     [emoji.emojize(':man_running: ПЕРЕЙТИ К ОБРАБОТКЕ')],
-    #     [emoji.emojize(':backhand_index_pointing_left: ПЕРЕДУМАЛ')],
-    # ],
     'skip_all_yes': [
         [emoji.emojize(':man_running: ДА, ПРОПУСТИТЬ ВСЕ')],
         [emoji.emojize(':backhand_index_pointing_left: ПЕРЕДУМАЛ')],
@@ -281,13 +267,14 @@ MESSAGES = {
 :information: Для отмены, нажмите :cross_mark: ОТМЕНА'''),
         'questionnaire': {
             'intro': emoji.emojize('''Вы выбрали ПОИСК через АНКЕТИРОВАНИЕ :spiral_notepad:. Это самый длительный способ, но он даёт наиболее точный результат :hundred_points:.
-Если вы готовы, нажмите :backhand_index_pointing_right: ДАЛЕЕ.
+Если вы готовы, нажмите :backhand_index_pointing_right: ПРОДОЛЖИТЬ.
 Для возврата к предыдущему меню, нажмите :backhand_index_pointing_left: НАЗАД.'''),
             'info': emoji.emojize(''':exclamation_question_mark: <b>Для определения критериев поиска :magnifying_glass_tilted_left:, мы зададим вам несколько вопросов :speech_balloon:. Чем больше критериев :card_index_dividers: для поиска вы введёте, тем точнее результат получите :hundred_points:.</b>
 
 Чтобы перейти к анкетированию нажмите :backhand_index_pointing_right: ПРОДОЛЖИТЬ.'''),
             'photo_intro': emoji.emojize(':index_pointing_up: Для начала, отправьте фото :framed_picture: образцов изделия или изделий, которые вы планируете заказать :shopping_cart:.'),
             'photo_uploaded': emoji.emojize('Спасибо :folded_hands:, мы получили ваше фото :framed_picture:.'),
+            'photo_processing': emoji.emojize('🕐 Обработка фото :framed_picture:...'),
             'photo_error': emoji.emojize(':cross_mark: Не удалось загрузить фото :framed_picture:. Используйте фото в формате JPG или PNG. Попробуйте загрузить фото ещё раз.'),
             'questions': {
                 'intro': emoji.emojize(''':speech_balloon: <i>Отправте ваш ответ или выберите из представленного списка :card_index_dividers:.
@@ -342,7 +329,7 @@ MESSAGES = {
     [тип одежды];[назначение];[пол и возраст];[минимальная партия];[минимальная сумма заказа];[регион/ы производства];[регион/ы поставки];[ценовой сегмент];[вид изделия];[дополнительные услуги];[техническая документация];[технология];[требования к фабрике];[условия оплаты];[требования по дизайну и моделированию];[необходимы ли образцы];[требования по дизайну и моделированию];[виды нанесения];[нанесение логотипа/принта];[ткани и фурнитура];[плотность материала];[обеспечение сырьём];[сертификация];[сроки поставки];[упаковка];[комментарий к заказу]'''),
         },
         'custom': {
-            'intro': emoji.emojize('Вы выбрали ПРОИЗВОЛЬНЫЙ ПОИСК :gear:. Вам необходимо ввести критерии поиска вручную :input_latin_letters: через запятую и отправить нам. Для продоления нажмите :backhand_index_pointing_right ДАЛЕЕ, для возврата к предыдущему меню, нажмите :backhand_index_pointing_left: НАЗАД.'),
+            'intro': emoji.emojize('Вы выбрали ПРОИЗВОЛЬНЫЙ ПОИСК :gear:. Вам необходимо ввести критерии поиска вручную :input_latin_letters: через запятую и отправить нам. Для продоления нажмите :backhand_index_pointing_right: ДАЛЕЕ, для возврата к предыдущему меню, нажмите :backhand_index_pointing_left: НАЗАД.'),
             'info': emoji.emojize(':information: Введите необходимые :double_exclamation_mark: характеристики в произвольной форме :gear:, разделяя их запятыми и отпрвьте нам.'),
         }
     },
@@ -352,10 +339,7 @@ MESSAGES = {
         'wrong_number': emoji.emojize('Неверный формат данных. Количество результатов должно быть числом от 1 до 100. Попробуйте еще раз.'),
         'contacts': {
             'intro': emoji.emojize('Для того, чтобы мы смогли отправить :e_mail: вам результаты поиска :card_index_dividers:, нам нужно знать, кому отправить :information: информацию о вашем заказе :shopping_cart:. Если вы согласны :check_mark_button: предоставить нам эту информацию :information: нажмите :backhand_index_pointing_right: ДАЛЕЕ, если нет нажмите :cross_mark: ОТМЕНА.'),
-            'name': emoji.emojize('Введите :information: ваше имя :bust_in_silhouette:.'),
-            'company': emoji.emojize('Введите :information: название Вашей компании :office_building: или продублируйте ваше имя :bust_in_silhouette:.'),
             'email': emoji.emojize('Введите :information: Вашу электронную почту :envelope:, на которую придут результаты поиска :magnifying_glass_tilted_left:.'),
-            'phone': emoji.emojize('Введите :information: Ваш номер телефона :telephone_receiver: или введите 0.'),
             'thanks': emoji.emojize('Спасибо :folded_hands: за ваши :information: контактные данные.'),
         },
         'init': emoji.emojize('Чтобы приступить к обработке :fire_engine: запроса и предоставить вам список :card_index_dividers: подходящих фабрик :factory:, нажмите :backhand_index_pointing_right: ПРОДОЛЖИТЬ.'),
@@ -365,6 +349,9 @@ MESSAGES = {
         'sent': emoji.emojize(':information: Ваши результаты поиска :card_index_dividers: отправлены на электронную почту :envelope:.')
     },
     'cancel': emoji.emojize(':double_exclamation_mark: Вы отменили поиск. Если хотите начать новый поиск :magnifying_glass_tilted_left:, введите /start'),
+    'photo': {
+        'results': emoji.emojize(':information: Результаты анализа полученного изображения :framed_picture::.'),
+    },
 
     
     'order_id_entered': emoji.emojize(':information:Номер заказа: {}. Если верно, нажмите :magnifying_glass_tilted_right: ИСКАТЬ или измените :pencil: номер заказа.'),
@@ -427,9 +414,9 @@ EMAIL_ADDRESS = os.getenv('SMTP_EMAIL')
 EMAIL_PASSWORD = os.getenv('SMTP_PASSWORD')
 
 #conversation steps
-LAUNCH, ORDER_TYPE, SEARCH_TYPE, CUSTOM_SEARCH, FILTERS_SEARCH, QUESTIONS_INTRO, QUESTIONS_PHOTO, QUESTIONNAIRE, CONTACTS_INTRO, PROCESSING, SEARCH_INIT, SEARCH, CONTACTS_COMPANY, CONTACTS_EMAIL, CONTACTS_PHONE, CONTACTS_FINISH = range(16)
-QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12, QUESTION_13, QUESTION_14, QUESTION_15, QUESTION_16, QUESTION_17, QUESTION_18, QUESTION_19, QUESTION_20, QUESTION_21, QUESTION_22, QUESTION_23, QUESTION_24, QUESTION_25, QUESTION_26 = range(16,42)
-QUESTION_1_CHECK, QUESTION_2_CHECK, QUESTION_3_CHECK, QUESTION_4_CHECK, QUESTION_5_CHECK, QUESTION_6_CHECK, QUESTION_7_CHECK, QUESTION_8_CHECK, QUESTION_9_CHECK, QUESTION_10_CHECK, QUESTION_11_CHECK, QUESTION_12_CHECK, QUESTION_13_CHECK, QUESTION_14_CHECK, QUESTION_15_CHECK, QUESTION_16_CHECK, QUESTION_17_CHECK, QUESTION_18_CHECK, QUESTION_19_CHECK, QUESTION_20_CHECK, QUESTION_21_CHECK, QUESTION_22_CHECK, QUESTION_23_CHECK, QUESTION_24_CHECK, QUESTION_25_CHECK, QUESTION_26_CHECK = range(42,68)
+LAUNCH, ORDER_TYPE, SEARCH_TYPE, CUSTOM_SEARCH, FILTERS_SEARCH, QUESTIONS_INTRO, QUESTIONS_PHOTO, QUESTIONNAIRE, PROCESSING, SEARCH_INIT, SEARCH, CONTACTS_EMAIL, CONTACTS_FINISH = range(13)
+QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12, QUESTION_13, QUESTION_14, QUESTION_15, QUESTION_16, QUESTION_17, QUESTION_18, QUESTION_19, QUESTION_20, QUESTION_21, QUESTION_22, QUESTION_23, QUESTION_24, QUESTION_25, QUESTION_26 = range(13,39)
+QUESTION_1_CHECK, QUESTION_2_CHECK, QUESTION_3_CHECK, QUESTION_4_CHECK, QUESTION_5_CHECK, QUESTION_6_CHECK, QUESTION_7_CHECK, QUESTION_8_CHECK, QUESTION_9_CHECK, QUESTION_10_CHECK, QUESTION_11_CHECK, QUESTION_12_CHECK, QUESTION_13_CHECK, QUESTION_14_CHECK, QUESTION_15_CHECK, QUESTION_16_CHECK, QUESTION_17_CHECK, QUESTION_18_CHECK, QUESTION_19_CHECK, QUESTION_20_CHECK, QUESTION_21_CHECK, QUESTION_22_CHECK, QUESTION_23_CHECK, QUESTION_24_CHECK, QUESTION_25_CHECK, QUESTION_26_CHECK = range(39,65)
 #functions
 #function for getting help
 def get_help():

@@ -9,7 +9,10 @@ from _contacts import *
 # processing step
 async def processing(update:Update, context:ContextTypes) -> int:
     if 'назад' in update.message.text.lower():
+        if 'search_data' in context.user_data.keys():
+            search_data = context.user_data['search_data']
         context.user_data.clear()
+        context.user_data['search_data'] = search_data
         await update.message.reply_text(MESSAGES['new_order']['intro'], 
                                         parse_mode=constants.ParseMode.HTML, 
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['search_type'], 
@@ -22,6 +25,9 @@ async def processing(update:Update, context:ContextTypes) -> int:
         else:
             if 'order_type' in context.user_data.keys() and context.user_data['order_type'] == 'new_order' and 'search_type' in context.user_data.keys() and context.user_data['search_type'] == 'custom':
                 entry = update.message.text.split(',')
+                if 'search_data' in context.user_data.keys() and len(context.user_data['search_data']) > 0:
+                    entry.extend(list(context.user_data['search_data'].values()))
+                    del context.user_data['search_data']
                 context.user_data['order_query'] = list(map(lambda x: x.strip(), entry))
             elif 'order_type' in context.user_data.keys() and context.user_data['order_type'] == 'new_order' and 'search_type' in context.user_data.keys() and context.user_data['search_type'] == 'filters':
                 entry = update.message.text.split(';')
@@ -74,31 +80,9 @@ async def search(update: Update, context:ContextTypes) -> int:
                                         reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
                                                                          one_time_keyboard=True))
         
-        return CONTACTS_INTRO
+        return CONTACTS_EMAIL
     else:
         await update.message.reply_text(MESSAGES['processing']['wrong_number'],
                                         parse_mode=constants.ParseMode.HTML)
         
         return SEARCH
-
-# # processing step
-# async def processing(update: Update, context:ContextTypes) -> int:
-#     print('processing stage')
-#     # if go back selected go back to choose search type
-#     if 'НАЗАД' in update.message.text:
-#         await update.message.reply_text(MESSAGES['new_order_intro'], parse_mode=constants.ParseMode.HTML, reply_markup=ReplyKeyboardMarkup(BUTTONS['search_type'], one_time_keyboard=True))
-#         return SEARCH_TYPE
-#     # if start search selected go to search step
-#     elif 'ИСКАТЬ' in update.message.text:
-#         await update.message.reply_text(MESSAGES['processing_intro'], parse_mode=constants.ParseMode.HTML, reply_markup=ReplyKeyboardMarkup(BUTTONS['search'], one_time_keyboard=True))
-#         return SEARCH
-#     elif 'ПЕРЕЙТИ К ОБРАБОТКЕ' in update.message.text:
-#         # if 'skip_all' in context.user_data.keys(): del context.user_data['skip_all']
-#         # if 'entry' in context.user_data.keys(): del context.user_data['entry']
-#         # if 'show_options' in context.user_data.keys(): del context.user_data['show_options']
-#         # if 'next_btn' in context.user_data.keys(): del context.user_data['next_btn']
-#         await update.message.reply_text(MESSAGES['processing_contacts'], parse_mode=constants.ParseMode.HTML, reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], one_time_keyboard=True))
-#         return NAME
-#     # if wrong order format sent, start over
-#     else:
-#         await update.message.reply_text(MESSAGES['wrong_order_format'], parse_mode=constants.ParseMode.HTML, reply_markup=ReplyKeyboardMarkup(BUTTONS['back'], one_time_keyboard=True))
