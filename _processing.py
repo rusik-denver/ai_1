@@ -32,17 +32,15 @@ async def processing(update:Update, context:ContextTypes) -> int:
             elif 'order_type' in context.user_data.keys() and context.user_data['order_type'] == 'new_order' and 'search_type' in context.user_data.keys() and context.user_data['search_type'] == 'filters':
                 entry = update.message.text.split(';')
                 order_query_lst = list(map(lambda x: x.strip(), entry))
-                context.user_data['order_query'] = {}
+                context.user_data['order_query'] = []
 
                 for i,x in enumerate(order_query_lst):
                     elem = x.replace('[', '').replace(']', '')
                     if elem not in FILTERS:
                         elem = elem.split(',')
                         elem = list(map(lambda x: x.strip(), elem))
-                        context.user_data['order_query'].update({FILTERS[i]: elem})
-                    else:
-                        context.user_data['order_query'].update({FILTERS[i]: []})
-            
+                        context.user_data['order_query'].extend(elem)
+
             context.user_data['entry'] = update.message.text
             await update.message.reply_text(MESSAGES['processing']['init'],
                                         parse_mode=constants.ParseMode.HTML, 
@@ -62,27 +60,7 @@ async def search_init(update: Update, context:ContextTypes) -> int:
                                             parse_mode=constants.ParseMode.HTML)
             return SEARCH_INIT
 
-    await update.message.reply_text(MESSAGES['processing']['intro'], 
-                                    parse_mode=constants.ParseMode.HTML, 
-                                    reply_markup=ReplyKeyboardRemove())
-    time.sleep(0.15)
     await update.message.reply_text(MESSAGES['processing']['output_number'], 
                                             parse_mode=constants.ParseMode.HTML)
 
-    return SEARCH
-
-async def search(update: Update, context:ContextTypes) -> int:
-    if re.match(r'\d+', update.message.text):
-        context.user_data['output_number'] = update.message.text
-
-        await update.message.reply_text(MESSAGES['processing']['contacts']['intro'],
-                                        parse_mode=constants.ParseMode.HTML, 
-                                        reply_markup=ReplyKeyboardMarkup(BUTTONS['next_cancel'], 
-                                                                         one_time_keyboard=True))
-        
-        return CONTACTS_EMAIL
-    else:
-        await update.message.reply_text(MESSAGES['processing']['wrong_number'],
-                                        parse_mode=constants.ParseMode.HTML)
-        
-        return SEARCH
+    return CONTACTS_EMAIL

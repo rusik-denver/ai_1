@@ -2,22 +2,24 @@ from telegram import Update, constants
 from telegram.ext import ContextTypes, ConversationHandler
 from _funcs import *
 from _nn import recommended_manufacturers
-import os
-import dotenv
-
-load_dotenv()
+import re
 
 # contacts step    
 async def contacts_email(update: Update, context:ContextTypes) -> int:
-    # if 'company' not in context.user_data['contacts'].keys() and update.message.text:
-    #     context.user_data['contacts']['company'] = update.message.text
-    if ('далее' in update.message.text.lower() or 'продолжить' in update.message.text.lower()) and 'contacts' not in context.user_data.keys():
+    if re.match(r'\d+', update.message.text):
+        context.user_data['output_number'] = update.message.text    
+    
         context.user_data['contacts'] = {}
         context.user_data['contacts_finished'] = False
         await update.message.reply_text(MESSAGES['processing']['contacts']['email'], 
                                         parse_mode=constants.ParseMode.HTML)
         
         return CONTACTS_FINISH
+    else:
+        await update.message.reply_text(MESSAGES['processing']['wrong_number'],
+                                        parse_mode=constants.ParseMode.HTML)
+        
+        return SEARCH_INIT
 
 async def contacts_finish(update: Update, context:ContextTypes) -> int:
     if 'email' not in context.user_data['contacts'].keys() and update.message.text:
@@ -28,7 +30,6 @@ async def contacts_finish(update: Update, context:ContextTypes) -> int:
                                         parse_mode=constants.ParseMode.HTML)
         await update.message.reply_text(MESSAGES['finish']['intro'], 
                                         parse_mode=constants.ParseMode.HTML)
-
         order_request = await create_order_request(context.user_data, update, context)
         results, db = recommended_manufacturers(order_request, n=int(context.user_data['output_number']), original=True, db_type='original')
         sent = await send_recommendations_email(results, db, f'{context.user_data["contacts"]["name"]} <{context.user_data["contacts"]["email"]}>')
@@ -58,7 +59,6 @@ async def contacts_finish(update: Update, context:ContextTypes) -> int:
         if sent:
             await update.message.reply_text(MESSAGES['finish']['sent'], 
                                         parse_mode=constants.ParseMode.HTML)
-            print(context.user_data)
             context.user_data.clear()
         
 

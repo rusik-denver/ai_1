@@ -10,11 +10,10 @@ from smtplib import SMTP
 from email.mime.text import MIMEText
 
 load_dotenv()
-BASE_DIR = Path(__file__).resolve().parent.parent
 OPTIONS = {} #Options dict
 
 # read refactored datasets into DBs dict
-options_db = pd.read_csv(BASE_DIR / 'db/db_refactored_options.csv')
+options_db = pd.read_csv('./db/db_refactored_options.csv')
 
 # extract options from dataframe
 for option in options_db.columns:
@@ -297,9 +296,6 @@ MESSAGES = {
 Если вы готовы, нажмите :backhand_index_pointing_right: ПРОДОЛЖИТЬ.
 Для возврата к предыдущему меню, нажмите :backhand_index_pointing_left: НАЗАД.'''),
             'info': emoji.emojize(''':exclamation_question_mark: <b>Для ввода критериев поиска следуйте следующему шаблону :world_map::</b>
-        :pushpin: [тип одежды];
-        :pushpin: [назначение];
-        :pushpin: [пол и возраст];
         :pushpin: [минимальная партия];
         :pushpin: [минимальная сумма заказа];
         :pushpin: [регион/ы производства];
@@ -326,7 +322,7 @@ MESSAGES = {
 :exclamation_question_mark: <i>Используйте только необходимые :double_exclamation_mark: критерии и не удаляйте :wastebasket: не использованные. Вместо наименования критерия добавить неограниченное :infinity: количество значений, разделяя их запятыми.</i>
 Для этого скопируйте следующую строку и отправьте нам после редактирования: 
 
-    [тип одежды];[назначение];[пол и возраст];[минимальная партия];[минимальная сумма заказа];[регион/ы производства];[регион/ы поставки];[ценовой сегмент];[вид изделия];[дополнительные услуги];[техническая документация];[технология];[требования к фабрике];[условия оплаты];[требования по дизайну и моделированию];[необходимы ли образцы];[требования по дизайну и моделированию];[виды нанесения];[нанесение логотипа/принта];[ткани и фурнитура];[плотность материала];[обеспечение сырьём];[сертификация];[сроки поставки];[упаковка];[комментарий к заказу]'''),
+    [минимальная_партия];[минимальная_сумма_заказа];[регион/ы_производства];[регион/ы_поставки];[ценовой_сегмент];[вид_изделия];[дополнительные_услуги];[техническая_документация];[технология];[требования_к_фабрике];[условия_оплаты];[требования_по_дизайну_и_моделированию];[необходимы_ли_образцы];[требования_по_дизайну_и_моделированию];[виды_нанесения];[нанесение_логотипа/принта];[ткани_и_фурнитура];[плотность_материала];[обеспечение_сырьём];[сертификация];[сроки_поставки];[упаковка];[комментарий_к_заказу]'''),
         },
         'custom': {
             'intro': emoji.emojize('Вы выбрали ПРОИЗВОЛЬНЫЙ ПОИСК :gear:. Вам необходимо ввести критерии поиска вручную :input_latin_letters: через запятую и отправить нам. Для продоления нажмите :backhand_index_pointing_right: ДАЛЕЕ, для возврата к предыдущему меню, нажмите :backhand_index_pointing_left: НАЗАД.'),
@@ -401,7 +397,7 @@ HELP = '''
       Используйте только необходимые критерии. Вы можете добавить неограниченное количество значений в каждый пункт, разделяя их запятыми.
 '''
 
-FILTERS = ['тип одежды','назначение','пол и возраст','минимальная партия','минимальная сумма заказа','регион/ы производства','регион/ы поставки','ценовой сегмент','вид изделия','дополнительные услуги','техническая документация','технология','требования к фабрике','условия оплаты','требования по дизайну и моделированию','необходимы ли образцы','требования по дизайну и моделированию','виды нанесения','нанесение логотипа/принта','ткани и фурнитура','плотность материала','обеспечение сырьём','сертификация','сроки поставки','упаковка','комментарий к заказу']
+FILTERS = ['тип_одежды','назначение','пол_и_возраст','минимальная_партия','минимальная_сумма_заказа','регион/ы_производства','регион/ы_поставки','ценовой_сегмент','вид_изделия','дополнительные_услуги','техническая_документация','технология','требования_к_фабрике','условия_оплаты','требования_по_дизайну_и_моделированию','необходимы_ли_образцы','требования_по_дизайну_и_моделированию','виды_нанесения','нанесение_логотипа/принта','ткани_и_фурнитура','плотность_материала','обеспечение_сырьём','сертификация','сроки_поставки','упаковка','комментарий_к_заказу']
 
 #questions options
 options_range = [x for x in range(15)]
@@ -414,9 +410,9 @@ EMAIL_ADDRESS = os.getenv('SMTP_EMAIL')
 EMAIL_PASSWORD = os.getenv('SMTP_PASSWORD')
 
 #conversation steps
-LAUNCH, ORDER_TYPE, SEARCH_TYPE, CUSTOM_SEARCH, FILTERS_SEARCH, QUESTIONS_INTRO, QUESTIONS_PHOTO, QUESTIONNAIRE, PROCESSING, SEARCH_INIT, SEARCH, CONTACTS_EMAIL, CONTACTS_FINISH = range(13)
-QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12, QUESTION_13, QUESTION_14, QUESTION_15, QUESTION_16, QUESTION_17, QUESTION_18, QUESTION_19, QUESTION_20, QUESTION_21, QUESTION_22, QUESTION_23, QUESTION_24, QUESTION_25, QUESTION_26 = range(13,39)
-QUESTION_1_CHECK, QUESTION_2_CHECK, QUESTION_3_CHECK, QUESTION_4_CHECK, QUESTION_5_CHECK, QUESTION_6_CHECK, QUESTION_7_CHECK, QUESTION_8_CHECK, QUESTION_9_CHECK, QUESTION_10_CHECK, QUESTION_11_CHECK, QUESTION_12_CHECK, QUESTION_13_CHECK, QUESTION_14_CHECK, QUESTION_15_CHECK, QUESTION_16_CHECK, QUESTION_17_CHECK, QUESTION_18_CHECK, QUESTION_19_CHECK, QUESTION_20_CHECK, QUESTION_21_CHECK, QUESTION_22_CHECK, QUESTION_23_CHECK, QUESTION_24_CHECK, QUESTION_25_CHECK, QUESTION_26_CHECK = range(39,65)
+LAUNCH, ORDER_TYPE, SEARCH_TYPE, CUSTOM_SEARCH, FILTERS_SEARCH, QUESTIONS_INTRO, QUESTIONS_PHOTO, QUESTIONNAIRE, PROCESSING, SEARCH_INIT, CONTACTS_EMAIL, CONTACTS_FINISH = range(12)
+QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12, QUESTION_13, QUESTION_14, QUESTION_15, QUESTION_16, QUESTION_17, QUESTION_18, QUESTION_19, QUESTION_20, QUESTION_21, QUESTION_22, QUESTION_23, QUESTION_24, QUESTION_25, QUESTION_26 = range(12,38)
+QUESTION_1_CHECK, QUESTION_2_CHECK, QUESTION_3_CHECK, QUESTION_4_CHECK, QUESTION_5_CHECK, QUESTION_6_CHECK, QUESTION_7_CHECK, QUESTION_8_CHECK, QUESTION_9_CHECK, QUESTION_10_CHECK, QUESTION_11_CHECK, QUESTION_12_CHECK, QUESTION_13_CHECK, QUESTION_14_CHECK, QUESTION_15_CHECK, QUESTION_16_CHECK, QUESTION_17_CHECK, QUESTION_18_CHECK, QUESTION_19_CHECK, QUESTION_20_CHECK, QUESTION_21_CHECK, QUESTION_22_CHECK, QUESTION_23_CHECK, QUESTION_24_CHECK, QUESTION_25_CHECK, QUESTION_26_CHECK = range(38,64)
 #functions
 #function for getting help
 def get_help():
@@ -517,7 +513,7 @@ async def send_recommendations_email(recommendations: list, db, email: str) -> N
     msg['Subject'] = 'Recommended Manufacturers'
 
     with SMTP(EMAIL_HOST, EMAIL_PORT) as server:
-        server.set_debuglevel(1)
+        # server.set_debuglevel(1)
         server.starttls()
         server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
         server.sendmail(f'Ruslan <{EMAIL_ADDRESS}>', email, msg.as_string())
@@ -529,8 +525,8 @@ async def create_order_request(data, update: Update, context: ContextTypes) -> l
         return int(context.user_data['order_id'])
     elif 'order_query' in context.user_data.keys() and context.user_data['order_query']:
         if isinstance(context.user_data['order_query'], dict):
-            return dict(filter(lambda x: x[1] is not None, context.user_data['order_query']))
+            return list(filter(lambda x: x is not None, map(lambda x: x[1], context.user_data['order_query'].items())))
         elif isinstance(context.user_data['order_query'], list):
             return context.user_data['order_query']
     elif 'search_data' in context.user_data.keys() and context.user_data['search_data']:
-        return dict(filter(lambda x: x[1] is not None, context.user_data['search_data']))
+        return list(filter(lambda x: x is not None, map(lambda x: x[1], context.user_data['search_data'].items())))

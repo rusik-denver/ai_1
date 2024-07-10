@@ -56,7 +56,6 @@ def main() -> None:
             QUESTIONNAIRE: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, questionnaire)],
             PROCESSING: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.Regex(r"(ПЕРЕЙТИ К ОБРАБОТКЕ)"), processing), MessageHandler(filters.TEXT, processing)],
             SEARCH_INIT: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.Regex(r"(^#\d{3,}$)"), search_init), MessageHandler(filters.TEXT, search_init)],
-            SEARCH: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.Regex(r"(^#\d{3,}$)"), search), MessageHandler(filters.TEXT, search)],
             CONTACTS_EMAIL: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, contacts_email)],
             CONTACTS_FINISH: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, contacts_finish)],
             QUESTION_1: [CommandHandler('cancel', cancel), MessageHandler(filters.Regex(r'(ОТМЕНА)$'), cancel), MessageHandler(filters.TEXT, question_1)], 
