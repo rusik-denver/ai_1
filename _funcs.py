@@ -347,6 +347,7 @@ MESSAGES = {
     'cancel': emoji.emojize(':double_exclamation_mark: Вы отменили поиск. Если хотите начать новый поиск :magnifying_glass_tilted_left:, введите /start'),
     'photo': {
         'results': emoji.emojize(':information: Результаты анализа полученного изображения :framed_picture::.'),
+        'error': emoji.emojize(':double_exclamation_mark: Произошла ошибка при обработке изображения :framed_picture:. Загрузите другое изображение :framed_picture:.'),
     },
 
     

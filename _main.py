@@ -167,22 +167,26 @@ async def questions_photo(update: Update, context:ContextTypes) -> int:
     res = await questions_photo_processing(update, context)
 
     if res:
-        await update.message.reply_text(MESSAGES['photo']['results'], 
-                                        parse_mode=constants.ParseMode.HTML)
-        time.sleep(0.15)
-        result_string = f'<b>Тип одежды:</b> {res["Тип одежды"]}\n' \
-                        f'<b>Назначение:</b> {res["Назначение"]}\n' \
-                        f'<b>Пол и возраст:</b> {res["Пол и возраст"]}\n' \
-                        f'<b>Сезон:</b> {res["Сезон"]}'
-        await update.message.reply_text(result_string, 
-                                        parse_mode=constants.ParseMode.HTML)
-        time.sleep(0.15)
-        await update.message.reply_text(MESSAGES['new_order']['intro'], 
-                                        parse_mode=constants.ParseMode.HTML, 
-                                        reply_markup=ReplyKeyboardMarkup(BUTTONS['search_type'], 
-                                                                         one_time_keyboard=True))
+        if res["Тип одежды"][1] < 0.7:
+            await update.message.reply_text(MESSAGES['photo']['error'], 
+                                            parse_mode=constants.ParseMode.HTML)
+        else:
+            await update.message.reply_text(MESSAGES['photo']['results'], 
+                                            parse_mode=constants.ParseMode.HTML)
+            time.sleep(0.15)
+            result_string = f'<b>Тип одежды:</b> {res["Тип одежды"][0]}\n' \
+                            f'<b>Назначение:</b> {res["Назначение"]}\n' \
+                            f'<b>Пол и возраст:</b> {res["Пол и возраст"]}\n' \
+                            f'<b>Сезон:</b> {res["Сезон"]}'
+            await update.message.reply_text(result_string, 
+                                            parse_mode=constants.ParseMode.HTML)
+            time.sleep(0.15)
+            await update.message.reply_text(MESSAGES['new_order']['intro'], 
+                                            parse_mode=constants.ParseMode.HTML, 
+                                            reply_markup=ReplyKeyboardMarkup(BUTTONS['search_type'], 
+                                                                            one_time_keyboard=True))
 
-        return SEARCH_TYPE
+            return SEARCH_TYPE
     else:
         return QUESTIONS_PHOTO
 

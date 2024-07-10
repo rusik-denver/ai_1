@@ -64,7 +64,11 @@ def recommended_manufacturers(order_request, n=25, original=False, db_type='orig
   elif isinstance(order_request, list):
     order_combined = ' '.join(order_request)
   elif isinstance(order_request, str):
-    order_combined = order_request
+    _ord = order_request.split(',')
+    _ord_lst = [''] * 26
+    for i in range(len(_ord)):
+      _ord_lst[i] = _ord[i]
+    order_combined = _ord_lst
   else:
     print('Order request has wrong format. It might be either Order ID, list of features, or a string')
     return IOError
@@ -74,7 +78,7 @@ def recommended_manufacturers(order_request, n=25, original=False, db_type='orig
 
   vectorizer = TfidfVectorizer(analyzer = 'word',stop_words=stop_words) # Initialize the TF-IDF vectorizer
   tfidf_matrix = vectorizer.fit_transform(dbs[0]['combined'])# Fit and transform the manufacturers' data
-  order_tfidf = vectorizer.transform([order_combined]) # Transform the order request text
+  order_tfidf = vectorizer.transform(order_combined) # Transform the order request text
   cosine_similarities = cosine_similarity(order_tfidf, tfidf_matrix).flatten() # Calculate cosine similarity between the order request and all manufacturers
   dbs[0]['similarity'] = cosine_similarities # Add the similarity scores to the manufacturers DataFrame
   recommended = dbs[0].sort_values(by='similarity', ascending=False) # Sort manufacturers by similarity scores in descending order
@@ -83,12 +87,11 @@ def recommended_manufacturers(order_request, n=25, original=False, db_type='orig
   first_column = recommended.pop('similarity')
   recommended.insert(0, 'similarity', first_column)
   
-#   predictions = model.predict(order_tfidf)
-  predictions = order_tfidf.toarray().reshape(None,1188)
+  predictions = model.predict(order_tfidf)
 
   return recommended.head(int(n)), manufacturers_db, predictions # Select top N manufacturers (e.g., top n)
 
-order_request = 'Верхняя одежда,Торжественная одежда, Женская одежда, Всесезон / помещения'
+order_request = 'Верхняя одежда, Торжественная одежда, Женская одежда, Всесезон / помещения'
 num = 10
 top_n_manufacturers, db, predictions = recommended_manufacturers(order_request, num, True, 'original')
 
